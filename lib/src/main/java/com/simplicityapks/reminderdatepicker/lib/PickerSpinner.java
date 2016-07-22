@@ -42,7 +42,10 @@ public abstract class PickerSpinner extends Spinner {
     private boolean restoreTemporarySelection = true;
     // Indicates that the temporary item should be reselected after an item is removed
     private boolean reselectTemporaryItem = false;
-
+    
+    public OnCalendarInitListener calendarInit;
+    //public Context        context;
+    
     /**
      * Construct a new PickerSpinner with the given context's theme.
      * @param context The Context the view is running in, through which it can access the current theme, resources, etc.
@@ -78,6 +81,8 @@ public abstract class PickerSpinner extends Spinner {
         PickerSpinnerAdapter adapter = new PickerSpinnerAdapter(context, getSpinnerItems(),
                 new TwinTextItem.Simple(getFooter(), null));
         setAdapter(adapter);
+        if(context instanceof OnCalendarInitListener)
+            setOnCalendarInitListener((OnCalendarInitListener) context);
     }
 
     @NonNull
@@ -211,6 +216,10 @@ public abstract class PickerSpinner extends Spinner {
             setSelectionQuietly(0);
         }
         super.setSelection(tempItemPosition);
+    }
+    
+    public void setOnCalendarInitListener(OnCalendarInitListener listener) {
+        this.calendarInit = listener;
     }
 
     @Override
